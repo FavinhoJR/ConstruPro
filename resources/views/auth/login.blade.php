@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Iniciar sesion - {{ $branding['company_name'] }}</title>
+    <title>Iniciar sesi&oacute;n - {{ $branding['company_name'] }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="flex min-h-screen flex-col bg-slate-900 p-4">
@@ -40,7 +40,7 @@
                        class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500">
             </div>
             <div>
-                <label class="mb-1 block text-sm font-medium text-slate-700">Contrasena</label>
+                <label class="mb-1 block text-sm font-medium text-slate-700">Contrase&ntilde;a</label>
                 <input type="password" name="password" required
                        class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500">
             </div>

@@ -9,6 +9,21 @@
 <body class="bg-slate-100 text-slate-800 antialiased">
 @php
     $brandInitials = \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($branding['company_name'], 0, 2));
+    $navItems = [
+        ['route' => 'dashboard', 'pattern' => 'dashboard', 'label' => 'Dashboard'],
+        ['route' => 'projects.index', 'pattern' => 'projects.*', 'label' => 'Proyectos'],
+        ['route' => 'expenses.index', 'pattern' => 'expenses.*', 'label' => 'Gastos'],
+        ['route' => 'suppliers.index', 'pattern' => 'suppliers.*', 'label' => 'Proveedores'],
+        ['route' => 'materials.index', 'pattern' => 'materials.*', 'label' => 'Materiales'],
+        ['route' => 'inventory.index', 'pattern' => 'inventory.*', 'label' => 'Inventario'],
+        ['route' => 'purchases.index', 'pattern' => 'purchases.*', 'label' => 'Compras'],
+        ['route' => 'reports.expenses', 'pattern' => 'reports.*', 'label' => 'Reportes'],
+    ];
+
+    if (auth()->user()?->canManageUsers()) {
+        $navItems[] = ['route' => 'users.index', 'pattern' => 'users.*', 'label' => 'Usuarios'];
+        $navItems[] = ['route' => 'settings.branding.edit', 'pattern' => 'settings.branding.*', 'label' => "Personalizaci\u{00F3}n"];
+    }
 @endphp
 <div class="min-h-screen flex">
     <aside class="hidden w-72 border-r border-slate-800 bg-slate-950 text-slate-100 md:flex md:flex-col">
@@ -28,34 +43,25 @@
             </div>
         </div>
         <nav class="flex-1 space-y-1 p-4 text-sm">
-            <a href="{{ route('dashboard') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('dashboard') ? 'bg-slate-800' : '' }}">Dashboard</a>
-            <a href="{{ route('projects.index') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('projects.*') ? 'bg-slate-800' : '' }}">Proyectos</a>
-            <a href="{{ route('expenses.index') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('expenses.*') ? 'bg-slate-800' : '' }}">Gastos</a>
-            <a href="{{ route('suppliers.index') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('suppliers.*') ? 'bg-slate-800' : '' }}">Proveedores</a>
-            <a href="{{ route('materials.index') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('materials.*') ? 'bg-slate-800' : '' }}">Materiales</a>
-            <a href="{{ route('inventory.index') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('inventory.*') ? 'bg-slate-800' : '' }}">Inventario</a>
-            <a href="{{ route('purchases.index') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('purchases.*') ? 'bg-slate-800' : '' }}">Compras</a>
-            <a href="{{ route('reports.expenses') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('reports.*') ? 'bg-slate-800' : '' }}">Reportes</a>
-            @can('manage-users')
-                <a href="{{ route('users.index') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('users.*') ? 'bg-slate-800' : '' }}">Usuarios</a>
-                <a href="{{ route('settings.branding.edit') }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('settings.branding.*') ? 'bg-slate-800' : '' }}">Personalizacion</a>
-            @endcan
+            @foreach ($navItems as $item)
+                <a href="{{ route($item['route']) }}" class="block rounded-lg px-3 py-2 hover:bg-slate-800 {{ request()->routeIs($item['pattern']) ? 'bg-slate-800' : '' }}">{{ $item['label'] }}</a>
+            @endforeach
         </nav>
         <div class="border-t border-slate-800 p-4 text-xs">
             <p class="font-medium">{{ auth()->user()->name }}</p>
             <p class="text-slate-400">{{ auth()->user()->role->label }}</p>
             <form method="POST" action="{{ route('logout') }}" class="mt-3">
                 @csrf
-                <button type="submit" class="text-red-300 hover:text-red-200">Cerrar sesion</button>
+                <button type="submit" class="text-red-300 hover:text-red-200">Cerrar sesi&oacute;n</button>
             </form>
         </div>
     </aside>
 
     <main class="flex min-h-screen flex-1 flex-col">
-        <header class="border-b border-slate-200 bg-white px-6 py-4">
-            <div class="flex items-center justify-between gap-4">
+        <header class="border-b border-slate-200 bg-white px-4 py-4 md:px-6">
+            <div class="flex items-start justify-between gap-4">
                 <div class="flex min-w-0 items-center gap-4">
-                    <div class="md:hidden">
+                    <div class="shrink-0 md:hidden">
                         @if ($branding['logo_url'])
                             <img src="{{ $branding['logo_url'] }}" alt="{{ $branding['company_name'] }}" class="h-10 w-10 rounded-lg border border-slate-200 bg-white object-contain p-1">
                         @else
@@ -74,9 +80,28 @@
                     <p class="text-xs text-slate-500">{{ $branding['tagline'] }}</p>
                 </div>
             </div>
+
+            <details class="mt-4 rounded-xl border border-slate-200 bg-slate-50 md:hidden">
+                <summary class="cursor-pointer list-none px-4 py-3 text-sm font-medium text-slate-700">
+                    Men&uacute;
+                </summary>
+                <div class="space-y-2 border-t border-slate-200 px-3 py-3">
+                    @foreach ($navItems as $item)
+                        <a href="{{ route($item['route']) }}" class="block rounded-lg px-3 py-2 text-sm hover:bg-white {{ request()->routeIs($item['pattern']) ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-700' }}">{{ $item['label'] }}</a>
+                    @endforeach
+                    <div class="border-t border-slate-200 pt-3">
+                        <p class="px-3 text-xs font-medium text-slate-700">{{ auth()->user()->name }}</p>
+                        <p class="px-3 text-xs text-slate-500">{{ auth()->user()->role->label }}</p>
+                        <form method="POST" action="{{ route('logout') }}" class="mt-3 px-3">
+                            @csrf
+                            <button type="submit" class="text-sm text-red-600">Cerrar sesi&oacute;n</button>
+                        </form>
+                    </div>
+                </div>
+            </details>
         </header>
 
-        <div class="flex-1 p-6">
+        <div class="flex-1 p-4 md:p-6">
             @if (session('success'))
                 <div class="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
                     {{ session('success') }}
@@ -96,7 +121,7 @@
             @yield('content')
         </div>
 
-        <footer class="border-t border-slate-200 bg-white px-6 py-4 text-center text-xs text-slate-500">
+        <footer class="border-t border-slate-200 bg-white px-4 py-4 text-center text-xs text-slate-500 md:px-6">
             <p>{{ $branding['footer_rights'] }}</p>
             <p class="mt-1">{{ $branding['footer_credit'] }}</p>
         </footer>

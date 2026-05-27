@@ -40,12 +40,12 @@ docker compose exec app php artisan migrate --seed
 # 7. Enlace simbolico de storage
 docker compose exec app php artisan storage:link
 
-# 8. Si vas a trabajar la interfaz manualmente
+# 8. Si se trabaja la interfaz manualmente
 docker compose exec app npm install
 docker compose exec app npm run build
 ```
 
-Abrir: **http://localhost:8080**
+URL local: **http://localhost:8080**
 
 Nota: el contenedor `app` compila los assets automaticamente si `public/build/manifest.json` no existe.
 

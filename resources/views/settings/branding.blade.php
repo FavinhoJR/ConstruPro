@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Personalizacion')
+@section('title', 'Personalizaci&oacute;n')
 
 @section('content')
 <div class="max-w-3xl rounded-xl border border-slate-200 bg-white p-6">
@@ -15,14 +15,14 @@
             </div>
 
             <div class="md:col-span-2">
-                <label class="mb-1 block text-sm font-medium text-slate-700">Subtitulo</label>
+                <label class="mb-1 block text-sm font-medium text-slate-700">Subt&iacute;tulo</label>
                 <input type="text" name="tagline" value="{{ old('tagline', $brandingSettings['tagline']) }}" class="w-full rounded-lg border-slate-300">
             </div>
 
             <div class="md:col-span-2">
                 <label class="mb-1 block text-sm font-medium text-slate-700">Logo</label>
                 <input type="file" name="logo" accept=".jpg,.jpeg,.png,.svg,.webp" class="w-full rounded-lg border-slate-300 bg-white px-3 py-2 text-sm">
-                <p class="mt-2 text-xs text-slate-500">Formatos permitidos: JPG, PNG, SVG o WEBP. Maximo 4 MB.</p>
+                <p class="mt-2 text-xs text-slate-500">Formatos permitidos: JPG, PNG, SVG o WEBP. M&aacute;ximo 4 MB.</p>
             </div>
         </div>
 

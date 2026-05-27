@@ -11,7 +11,8 @@ class AuthenticationTest extends TestCase
         $response = $this->get('/login');
 
         $response->assertOk();
-        $response->assertSee('ConstruPRO');
+        $response->assertSee('Correo');
+        $response->assertSee('Entrar');
     }
 
     public function test_dashboard_redirects_guests_to_login(): void

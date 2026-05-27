@@ -1,5 +1,6 @@
-<div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
-    <table class="w-full text-sm">
+<div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
+    <div class="overflow-x-auto">
+    <table class="min-w-[560px] w-full text-sm">
         <thead class="bg-slate-50 text-left">
             <tr>
                 <th class="px-4 py-3">Proveedor</th>
@@ -21,4 +22,5 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 </div>
