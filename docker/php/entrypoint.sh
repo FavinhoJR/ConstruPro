@@ -38,7 +38,10 @@ if [ -z "${APP_KEY:-}" ]; then
     export APP_KEY="$(php artisan key:generate --show --no-ansi)"
 fi
 
-php artisan optimize:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan event:clear
 
 if [ -n "${DB_URL:-}" ] || [ -n "${DATABASE_URL:-}" ] || [ -n "${DB_HOST:-}" ]; then
     php artisan migrate --force
