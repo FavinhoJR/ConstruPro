@@ -25,11 +25,9 @@ services:
       - key: LOG_LEVEL
         value: info
       - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_URL
-        fromDatabase:
-          name: construpro-db
-          property: connectionString
+        value: sqlite
+      - key: DB_DATABASE
+        value: /var/www/html/database/database.sqlite
       - key: SESSION_DRIVER
         value: database
       - key: CACHE_STORE
@@ -40,9 +38,3 @@ services:
         value: public
       - key: RUN_DEMO_SEEDERS
         value: true
-
-databases:
-  - name: construpro-db
-    databaseName: construpro
-    user: construpro
-    plan: free

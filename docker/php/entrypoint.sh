@@ -34,6 +34,15 @@ NGINX
 mkdir -p storage/framework/cache/data storage/framework/sessions storage/framework/views bootstrap/cache
 chmod -R ug+rw storage bootstrap/cache || true
 
+if [ "${DB_CONNECTION:-}" = "sqlite" ]; then
+    DB_DATABASE="${DB_DATABASE:-/var/www/html/database/database.sqlite}"
+    mkdir -p "$(dirname "$DB_DATABASE")"
+    touch "$DB_DATABASE"
+fi
+
+chown -R www-data:www-data storage bootstrap/cache database || true
+chmod -R ug+rw storage bootstrap/cache database || true
+
 if [ -z "${APP_KEY:-}" ]; then
     export APP_KEY="$(php artisan key:generate --show --no-ansi)"
 fi
@@ -43,7 +52,7 @@ php artisan route:clear
 php artisan view:clear
 php artisan event:clear
 
-if [ -n "${DB_URL:-}" ] || [ -n "${DATABASE_URL:-}" ] || [ -n "${DB_HOST:-}" ]; then
+if [ "${DB_CONNECTION:-}" = "sqlite" ] || [ -n "${DB_URL:-}" ] || [ -n "${DATABASE_URL:-}" ] || [ -n "${DB_HOST:-}" ]; then
     php artisan migrate --force
 
     if [ "${RUN_DEMO_SEEDERS:-true}" = "true" ]; then

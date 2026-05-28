@@ -1,9 +1,9 @@
 FROM php:8.3-fpm-alpine
 
 RUN apk add --no-cache \
-    bash curl git nginx icu-dev icu-libs libpq-dev libzip-dev oniguruma-dev nodejs npm $PHPIZE_DEPS \
+    bash curl git nginx icu-dev icu-libs libpq-dev libzip-dev oniguruma-dev sqlite-dev nodejs npm $PHPIZE_DEPS \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install intl pdo pdo_pgsql zip opcache \
+    && docker-php-ext-install intl pdo pdo_pgsql pdo_sqlite zip opcache \
     && pecl install redis \
     && docker-php-ext-enable redis \
     && apk del --no-cache icu-dev $PHPIZE_DEPS
