@@ -10,6 +10,7 @@ use App\Policies\ProjectPolicy;
 use App\Services\BrandingService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -22,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+
         Paginator::useTailwind();
 
         Gate::policy(Project::class, ProjectPolicy::class);

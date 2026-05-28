@@ -10,6 +10,8 @@ services:
     envVars:
       - key: APP_NAME
         value: ConstruPRO
+      - key: APP_URL
+        value: https://construpro-quzu.onrender.com
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
